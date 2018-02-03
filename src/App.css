@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css?family=Oleo+Script');
+.App{
+  text-align: center;
+}
+
+.bodyContainer{
+  margin: 25px;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+
+.App-header {
+  background: linear-gradient(-89deg,#8a3ab9, #4c68d7, #cd486b, #fbad50, #fccc63, #bc2a8d, #e95950);
+  height: 70px;
+  padding: 10px;
+  padding-bottom: 70px;
+  color: white;
+  text-align: center;
+  font-family: 'Oleo Script', cursive;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.popular{
+  height: 90px;
+  padding: 20px;
+  border-radius: 10px;
+  background: #e95950;
+  color: white !important;
+}
+
+.notPopular{
+  height: 90px;
+  padding: 20px;
+  border-radius: 10px;
+  background: #fbad50;
+  color: white !important;
+}
+
+.floatLeft{
+  float: left;
+}
+
+.compHeader{
+  font-size: 25px;
+  font-family: 'Oleo Script', cursive;
+}
+
+.graphArea{
+  background: aliceblue;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+  padding: 30px;
+  border: solid antiquewhite;
+}
+
+.popularArea{
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btnCompare{
+  margin-top:50px;
+  width: 150px;
+  padding: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 25px;
+  font-family: 'Oleo Script', cursive;
+}
+
+.tagddl{
+  width: 150px;
+  border-radius: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tagInput{
+  border-radius: 20px;
+}
+
+.mediaCount{
+  float: right;
+  /* color: linear-gradient(-89deg,#8a3ab9, #4c68d7, #cd486b, #fbad50, #fccc63, #bc2a8d, #e95950); */
+  background: -webkit-linear-gradient(#8a3ab9, #4c68d7, #cd486b, #bc2a8d, #e95950);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.marginTop{
+  margin-top: 10px;
+}
+
+.tagsItem{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 30px;
+  padding: 20px;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
