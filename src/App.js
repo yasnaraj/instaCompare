@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import InstaTags from './containers/instaTags';
 import TagsCompare from './containers/tagsCompare';
 
 

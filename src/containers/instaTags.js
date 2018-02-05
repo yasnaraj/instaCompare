@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import * as tagsCountActions from '../store/tagsCount/tagsCountActions';
-
 class InstaTags extends Component {
     constructor(props){
         super(props);
@@ -27,7 +25,7 @@ class InstaTags extends Component {
       <div className="col-sm-4 col-md-4 col-lg-3 floatLeft marginTop">
       <div className="row">
           <i className="fa fa-hashtag floatLeft marginTop"> </i>
-          <input type="text" className="form-control tagInput col-xs-11 col-sm-11 col-md-11 col-lg-11 floatLeft" 
+          <input type="text" className="form-control tagInput col-xs-10 col-sm-11 col-md-11 col-lg-11 floatLeft" 
           placeholder="Hashtag" value={this.state.tagName} onChange={(e) => this.setState({tagName: e.target.value})} 
           onBlur={this.onBtnClick} onFocus = {this.props.onNotDispatch}/>
       </div>

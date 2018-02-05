@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ColumnChart, PieChart } from 'react-chartkick';
+import { PieChart } from 'react-chartkick';
 
 import * as tagsCountActions from '../store/tagsCount/tagsCountActions';
 import InstaTags from './instaTags';
+import Ranking from './ranking';
 
 window.Chart = require('chart.js');
 window.Highcharts = require('highcharts');
@@ -19,6 +20,7 @@ class TagsCompare extends Component {
             leastPopular: undefined,
             dispatched: false,
             graphData: undefined,
+            sortedData: undefined,
         }
         this.onChange = this.onChange.bind(this);
         this.generateInstaTags = this.generateInstaTags.bind(this);
@@ -28,7 +30,12 @@ class TagsCompare extends Component {
     }
 
     onChange(e){
-        this.setState({selectedCount: e.target.value, morePopular: undefined, leastPopular: undefined, graphData: undefined});
+        this.setState({tagItems: []});
+        this.setState({selectedCount: e.target.value, 
+            morePopular: undefined, 
+            leastPopular: undefined, 
+            graphData: undefined,
+            sortedData: undefined});
         for(var i = 0; i< this.state.tagItems.length; i++){
             var key = this.state.tagItems[i];
             var val = undefined;
@@ -37,8 +44,8 @@ class TagsCompare extends Component {
             this.setState(obj);
         }
         var arr = [];
-        for(var i = 0; i < e.target.value; i++){
-            arr.push('TagItem' + i+1);
+        for(var j = 0; j < e.target.value; j++){
+            arr.push('TagItem' + j+1);
         }
         this.setState({tagItems: arr});
     }
@@ -79,14 +86,16 @@ class TagsCompare extends Component {
             }
 
             var graphData = [];
+            var sortData = [];
             
-
             for(var i = 0; i< this.state.tagItems.length; i++){
                 var tagItem = this.state[this.state.tagItems[i]];
                 var item = [];
                 item.push(tagItem.name);
                 item.push(tagItem.media_count);
-                //item['"' + tagItem.name + '"'] = tagItem.media_count;
+                
+                sortData.push(tagItem);
+
                 graphData.push(item);
                 if(tagItem){
                     var count = tagItem.media_count;
@@ -102,7 +111,13 @@ class TagsCompare extends Component {
                 }
                 
             }
-            this.setState({morePopular: morePopular, leastPopular: leastPopular, graphData: graphData});
+
+            var sorted = sortData.slice().sort(function(a,b){
+                return b.media_count - a.media_count
+            })
+
+
+            this.setState({morePopular: morePopular, leastPopular: leastPopular, graphData: graphData, sortedData: sorted});
         
     }
 
@@ -137,7 +152,7 @@ class TagsCompare extends Component {
             <div className="row popularArea">
             <div className="col-lg-1 "></div>
             {this.state.morePopular ? <div className="popular col-sm-5 col-md-5 col-lg-4 floatLeft" style={{margin: '20px'}}> 
-                    <div className="col-sm-4 col-md-4 col-lg-4 floatLeft">
+                    <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4 floatLeft">
                         <h2><i className="fa fa-thumbs-up"></i></h2></div>
                         <div className="col-sm-8 col-md-8 col-lg-8 floatLeft" style={{marginTop: '-10px'}}> 
                         <b className="compHeader">{this.state.morePopular}</b> 
@@ -145,17 +160,25 @@ class TagsCompare extends Component {
                      </div> : 
                 null}
             {this.state.leastPopular ? <div className="notPopular col-sm-5 col-md-5 col-lg-4 floatLeft" style={{margin: '20px'}}> 
-                    <div className="col-sm-4 col-md-4 col-lg-4 floatLeft"><h2><i className="fa fa-thumbs-down"></i></h2></div>
+                    <div className="col-xs-4  col-sm-2 col-md-4 col-lg-4 floatLeft"><h2><i className="fa fa-thumbs-down"></i></h2></div>
                         <div className="col-sm-8 col-md-8 col-lg-8 floatLeft" style={{marginTop: '-10px'}}> 
                         <b className="compHeader">{this.state.leastPopular}</b> 
                         <div>Less Popular</div> </div>
                      </div> : 
                      null}
             </div>
-            {this.state.graphData ? <div className="graphArea">
-                <PieChart data={this.state.graphData} donut={true} library={{backgroundColor: "#fccc63"}} />
-                </div>
-            : null}
+
+            <div className="infoArea floatLeft">
+                {this.state.sortedData ? <div className="rankingArea col-md-3 col-lg-3">
+                    <Ranking sortedData = {this.state.sortedData}/>
+                    </div> : null}
+                {this.state.graphData ? <div className="graphArea col-md-8 col-lg-8">
+                    <b className="compHeader" style={{textAlign: 'left'}}>Pie Chart </b>
+                    <PieChart data={this.state.graphData} donut={true} />
+                    </div>
+                : null}
+            </div>
+            
             
         </div>
         );
