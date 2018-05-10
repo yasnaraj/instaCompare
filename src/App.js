@@ -12,6 +12,7 @@ class App extends Component {
         </header>
 
         <TagsCompare />
+
       </div>
     );
   }

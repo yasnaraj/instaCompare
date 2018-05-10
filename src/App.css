@@ -54,23 +54,28 @@
 .compHeader{
   font-size: 25px;
   font-family: 'Oleo Script', cursive;
+  margin-right: 20px;
 }
 
 .graphArea{
-  background: aliceblue;
-  /*margin-left: auto;
-  margin-right: auto; */
-  border-radius: 10px;
-  padding: 30px;
-  border: solid antiquewhite;
+  /* background: aliceblue;
+border: solid antiquewhite;
+padding: 30px;
+  border-radius: 10px; */
+  border-left: dashed 2px #e95950;
   margin:10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .rankingArea{
-  background: aliceblue;
-  border-radius: 10px;
-  padding: 30px;
+  /* background: aliceblue;
   border: solid antiquewhite;
+  padding: 30px;
+  border-radius: 10px; */
+  
+  padding-left: 10px;
+  padding-right: 10px;
   margin:10px;
 }
 
@@ -91,7 +96,7 @@
 }
 
 .tagddl{
-  width: 150px;
+  width: 70px;
   border-radius: 20px;
   margin-left: auto;
   margin-right: auto;
@@ -120,7 +125,6 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 30px;
   padding: 20px;
 }
 
@@ -132,6 +136,13 @@
   padding: 20px;
   width: 100%;
 }
+
+.centerAlign{
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+}
+
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }

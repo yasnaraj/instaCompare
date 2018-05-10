@@ -29,7 +29,7 @@ class InstaTags extends Component {
           placeholder="Hashtag" value={this.state.tagName} onChange={(e) => this.setState({tagName: e.target.value})} 
           onBlur={this.onBtnClick} onFocus = {this.props.onNotDispatch}/>
       </div>
-          {this.props.totalCount ? <span className="mediaCount"> {this.props.totalCount.media_count} </span>: 
+          {this.props.totalCount ? <span className="mediaCount"> Total Count: {this.props.totalCount.media_count} </span>: 
         <span className="mediaCount">... </span>}
 
       </div>

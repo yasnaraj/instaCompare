@@ -1,4 +1,4 @@
-var access_Token = 'ACCESS TOKEN';
+var access_Token = 'ACCESS_TOKEN';
 
 class instaFeed{
     GetFeedCountByTag(tagName){
