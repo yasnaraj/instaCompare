@@ -15,7 +15,9 @@ class Ranking extends Component {
 
   render() {
       var makeList = function(x){
-        return <li key={x.name}> {x.name} - {x.media_count} </li>
+        var mediaCount = x.media_count.toLocaleString();
+        
+        return <li key={x.name}> {x.name} - {mediaCount} </li>
         }
 
     return (

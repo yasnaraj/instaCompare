@@ -14,7 +14,8 @@ class TagsCompare extends Component {
         super(props);
         this.state = {
             selectedCount: 2,
-            tagItems: ['TagItem1', 'tagItem2'],
+            tagItems: [{item: 'TagItem1', value: null}, 
+                        {item: 'tagItem2', value: null}],
             currentInstaItem: '',
             morePopular: undefined,
             leastPopular: undefined,
@@ -30,7 +31,7 @@ class TagsCompare extends Component {
     }
 
     onChange(e) {
-        this.setState({ tagItems: [] });
+        // on change of the hashtags the use wants to compare
         this.setState({
             selectedCount: e.target.value,
             morePopular: undefined,
@@ -38,35 +39,33 @@ class TagsCompare extends Component {
             graphData: undefined,
             sortedData: undefined
         });
-        for (var i = 0; i < this.state.tagItems.length; i++) {
-            var key = this.state.tagItems[i];
-            var val = undefined;
-            var obj = {}
-            obj[key] = val
-            this.setState(obj);
-        }
+
+        // generate new hashtag objects
         var arr = [];
         for (var j = 0; j < e.target.value; j++) {
-            arr.push('TagItem' + j + 1);
+            arr.push({item: 'TagItem' + j + 1, value: null});
         }
         this.setState({ tagItems: arr });
     }
 
     generateInstaTags(instaTagItem) {
-        return <InstaTags key={instaTagItem}
-            instaItem={instaTagItem}
+        return <InstaTags key={instaTagItem.item}
+            instaItem={instaTagItem.item}
             dispatchItem={this.dispatchItem}
-            totalCount={this.state[instaTagItem]}
+            obj={instaTagItem.obj}
             onNotDispatch={() => this.setState({ dispatched: false })} />
     }
 
     setIndividualTagState(key, value) {
-        var obj = {}
-        obj[key] = value
-        this.setState(obj);
+        // after the dispatch is done to fetch the hastag detail, add the detail to the existing tag item as an obj
+        var newTagItems = this.state.tagItems;
+        var objIndex = newTagItems.findIndex((obj => obj.item == key));
+        newTagItems[objIndex].obj = value;
+        this.setState({tagItems: newTagItems});
     }
 
     dispatchItem(tagName, item) {
+        // dispatch the action that makes service call to fetch the hashtag detail
         var _this = this;
         this.props.dispatch(tagsCountActions.GetFeedCountByTag(tagName)).then(
             function () {
@@ -77,13 +76,14 @@ class TagsCompare extends Component {
     }
 
     compare() {
-        if (this.state[this.state.tagItems[0]]) {
-            var morePopular = this.state[this.state.tagItems[0]].name;
-            var morePopularCount = this.state[this.state.tagItems[0]].media_count;
-            var leastPopular = this.state[this.state.tagItems[0]].name;
-            var leastPopularCount = this.state[this.state.tagItems[0]].media_count;
+        // code to compare the hashtag counts of the entered hashtags
+        if (this.state.tagItems[0].obj) {
+            var morePopular = this.state.tagItems[0].obj.name;
+            var morePopularCount = this.state.tagItems[0].obj.media_count;
+            var leastPopular = this.state.tagItems[0].obj.name;
+            var leastPopularCount = this.state.tagItems[0].obj.media_count;
         } else {
-            alert('Please fill the first item');
+            alert('Please fill the first item or maybe there are no such hastags!');
             return;
         }
 
@@ -91,7 +91,11 @@ class TagsCompare extends Component {
         var sortData = [];
 
         for (var i = 0; i < this.state.tagItems.length; i++) {
-            var tagItem = this.state[this.state.tagItems[i]];
+            var tagItem = this.state.tagItems[i].obj;
+            if(tagItem === undefined){
+                alert("Maybe there are no such hashtags for the hashtag in position " + (parseInt(i) + 1) + ". Please try changing it and see the result,");
+                return;
+            }
             var item = [];
             item.push(tagItem.name);
             item.push(tagItem.media_count);
@@ -102,11 +106,11 @@ class TagsCompare extends Component {
             if (tagItem) {
                 var count = tagItem.media_count;
                 if (morePopularCount < count) {
-                    morePopular = this.state[this.state.tagItems[i]].name;
-                    morePopularCount = this.state[this.state.tagItems[i]].media_count;
+                    morePopular = this.state.tagItems[i].obj.name;
+                    morePopularCount = this.state.tagItems[i].obj.media_count;
                 } else if (count < leastPopularCount) {
-                    leastPopular = this.state[this.state.tagItems[i]].name;
-                    leastPopularCount = this.state[this.state.tagItems[i]].media_count;
+                    leastPopular = this.state.tagItems[i].obj.name;
+                    leastPopularCount = this.state.tagItems[i].obj.media_count;
                 }
             } else {
                 alert('Please remember to fill all details');
@@ -114,6 +118,7 @@ class TagsCompare extends Component {
 
         }
 
+        // sort the data in ascending order for ranking
         var sorted = sortData.slice().sort(function (a, b) {
             return b.media_count - a.media_count
         })
